@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Download, ChevronDown, Menu, X } from "lucide-react";
+import Footer from "./Footer";
 
 const PyqVault = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,11 +18,17 @@ const PyqVault = () => {
         subjects: [
           {
             name: "Computer Science",
-            pdfs: ["Introduction to Programming.pdf", "Data Structures.pdf"],
+            pdfs: [
+              { name: "Introduction to Programming", path: "/pdfs/resume-raj.pdf" },
+              { name: "Resume Raj", path: "/pdfs/resume-raj.pdf" },
+            ],
           },
           {
             name: "Mathematics",
-            pdfs: ["Calculus.pdf", "Algebra.pdf"],
+            pdfs: [
+              { name: "Calculus", path: "/pdfs/calculus.pdf" },
+              { name: "Algebra", path: "/pdfs/algebra.pdf" },
+            ],
           },
         ],
       },
@@ -28,185 +37,188 @@ const PyqVault = () => {
         subjects: [
           {
             name: "Physics",
-            pdfs: ["Mechanics.pdf", "Electromagnetism.pdf"],
+            pdfs: [
+              { name: "Mechanics", path: "/pdfs/mechanics.pdf" },
+              { name: "Electromagnetism", path: "/pdfs/electromagnetism.pdf" },
+            ],
           },
           {
             name: "Chemistry",
-            pdfs: ["Organic Chemistry.pdf", "Inorganic Chemistry.pdf"],
+            pdfs: [
+              { name: "Organic Chemistry", path: "/pdfs/organic_chemistry.pdf" },
+              { name: "Inorganic Chemistry", path: "/pdfs/inorganic_chemistry.pdf" },
+            ],
           },
         ],
       },
     ],
   };
 
+  const handleDownload = (pdfPath, pdfName) => {
+  // Create a temporary link element
+  const link = document.createElement('a');
+  link.href = pdfPath;
+  link.download = pdfName;
+  
+  // Append link to the document
+  document.body.appendChild(link);
+  
+  // Trigger the download
+  link.click();
+  
+  // Remove the link from the document
+  document.body.removeChild(link);
+};
+
+
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="bg-blue-700 text-white py-4 px-6 shadow-lg">
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <header className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white py-4 px-6 shadow-lg">
         <div className="container mx-auto flex items-center justify-between">
           <a className="flex items-center gap-2" href="#">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-6 h-6"
-            >
-              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
-            </svg>
-            <span className="text-2xl font-extrabold">PYQ Vault</span>
+            <span className="text-3xl font-extrabold">Questor</span>
           </a>
-          <nav
-            className={`md:flex items-center gap-6 ${
-              menuOpen ? "flex" : "hidden"
-            }`}
-          >
-            <a className="hover:underline" href="#">
-              Semesters
-            </a>
-            <a className="hover:underline" href="#">
-              Subjects
-            </a>
-            <a className="hover:underline" href="#">
-              About
-            </a>
-            <a className="hover:underline" href="#">
-              Contact
-            </a>
+          <nav className={`md:flex items-center gap-6 ${menuOpen ? "flex" : "hidden"}`}>
+            <a className="hover:text-purple-200 transition-colors" href="#">Semesters</a>
+            <a className="hover:text-purple-200 transition-colors" href="#">Subjects</a>
+            <a className="hover:text-purple-200 transition-colors" href="#">About</a>
+            <a className="hover:text-purple-200 transition-colors" href="#">Contact</a>
           </nav>
           <button
-            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-white bg-blue-600 hover:bg-blue-800 hover:text-white h-10 px-4 py-2 md:hidden"
+            className="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-white bg-transparent hover:bg-white hover:text-purple-600 h-10 px-4 py-2 md:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-6 h-6"
-            >
-              <line x1="4" x2="20" y1="12" y2="12"></line>
-              <line x1="4" x2="20" y1="6" y2="6"></line>
-              <line x1="4" x2="20" y1="18" y2="18"></line>
-            </svg>
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </header>
       <main className="flex-1 py-12">
-        <section className="bg-blue-600 py-20 text-white">
+        <section className="bg-gradient-to-b from-purple-600 to-indigo-600 py-20 text-white">
           <div className="container mx-auto flex flex-col items-center gap-6">
-            <h1 className="text-5xl font-bold tracking-wide">
-              Welcome to PYQ Vault
-            </h1>
-            <p className="max-w-lg text-center text-lg leading-relaxed">
+            <motion.h1
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-5xl font-bold tracking-wide text-center"
+            >
+              Welcome to Questor
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="max-w-lg text-center text-lg leading-relaxed"
+            >
               Organize and access your previous year question papers with ease.
-            </p>
-            <div className="w-full max-w-lg">
+            </motion.p>
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="w-full max-w-lg"
+            >
               <input
-                className="flex h-12 border border-transparent bg-white text-black text-sm rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300 transition-all"
+                className="w-full h-12 border border-transparent bg-white text-purple-600 text-sm rounded-full px-6 py-2 focus:outline-none focus:ring-2 focus:ring-purple-300 transition-all"
                 placeholder="Search for PDFs..."
               />
-            </div>
+            </motion.div>
           </div>
         </section>
         <section className="container mx-auto py-12">
           <div data-orientation="vertical">
             {dummyData.semesters.map((semester, index) => (
-              <div key={index} className="border-b">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                className="mb-4 rounded-lg overflow-hidden shadow-md"
+              >
                 <h3 className="flex">
                   <button
                     type="button"
                     aria-controls={`accordion-${index}`}
                     aria-expanded={accordionOpen === index}
-                    className="flex-1 flex items-center justify-between bg-gray-200 px-6 py-4 text-lg font-medium transition-all hover:bg-gray-300 focus:outline-none"
+                    className="flex-1 flex items-center justify-between bg-white px-6 py-4 text-lg font-medium transition-all hover:bg-gray-50 focus:outline-none"
                     onClick={() => toggleAccordion(index)}
                   >
                     <div>{semester.name}</div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
+                    <ChevronDown
                       className={`w-5 h-5 transform transition-transform ${
                         accordionOpen === index ? "rotate-180" : ""
                       }`}
-                    >
-                      <path d="m6 9 6 6 6-6"></path>
-                    </svg>
+                    />
                   </button>
                 </h3>
-                <div
-                  id={`accordion-${index}`}
-                  hidden={accordionOpen !== index}
-                  role="region"
-                  className="overflow-hidden transition-all px-6 py-4"
+                <motion.div
+                  initial={{ height: 0 }}
+                  animate={{ height: accordionOpen === index ? "auto" : 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="overflow-hidden bg-white"
                 >
-                  {semester.subjects.map((subject, subIndex) => (
-                    <div key={subIndex} className="mb-4">
-                      <h4 className="font-semibold text-gray-800">
-                        {subject.name}
-                      </h4>
-                      <ul className="list-disc pl-5">
-                        {subject.pdfs.map((pdf, pdfIndex) => (
-                          <li
-                            key={pdfIndex}
-                            className="text-sm text-gray-600 hover:text-gray-800"
-                          >
-                            {pdf}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                  <div className="px-6 py-4">
+                    {semester.subjects.map((subject, subIndex) => (
+                      <div key={subIndex} className="mb-4">
+                        <h4 className="font-semibold text-gray-800 mb-2">
+                          {subject.name}
+                        </h4>
+                        <ul className="space-y-2">
+                          {subject.pdfs.map((pdf, pdfIndex) => (
+                            <li
+                              key={pdfIndex}
+                              className="flex items-center justify-between bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
+                            >
+                              <span className="text-sm text-gray-600">
+                                {pdf.name}
+                              </span>
+                              <button
+                                onClick={() => handleDownload(pdf.path, pdf.name)}
+                                className="flex items-center gap-1 text-purple-600 hover:text-purple-700 transition-colors"
+                              >
+                                <Download className="w-4 h-4" />
+                                <span className="text-xs">Download</span>
+                              </button>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              </motion.div>
             ))}
           </div>
         </section>
       </main>
-      <aside className="bg-gray-100 p-6">
-        <h2 className="text-xl font-bold mb-4">Filter PDFs</h2>
+      <aside className="bg-white p-6 shadow-md rounded-lg mx-4 mb-8">
+        <h2 className="text-xl font-bold mb-4 text-purple-600">Filter PDFs</h2>
         <div className="grid gap-4">
           <div>
-            <h3 className="text-lg font-medium mb-2">Subject</h3>
+            <h3 className="text-lg font-medium mb-2 text-gray-800">Subject</h3>
             <div className="grid gap-2">
               {["Computer Science", "Mathematics", "Physics", "Chemistry"].map(
                 (subject, index) => (
                   <label key={index} className="flex items-center gap-2">
                     <input
                       type="checkbox"
-                      className="h-4 w-4 shrink-0 rounded-sm border border-blue-600 text-blue-600 focus:ring-2 focus:ring-blue-300"
+                      className="h-4 w-4 shrink-0 rounded-sm border border-purple-600 text-purple-600 focus:ring-2 focus:ring-purple-300"
                     />
-                    {subject}
+                    <span className="text-gray-600">{subject}</span>
                   </label>
                 )
               )}
             </div>
           </div>
           <div>
-            <h3 className="text-lg font-medium mb-2">Year</h3>
+            <h3 className="text-lg font-medium mb-2 text-gray-800">Year</h3>
             <div className="grid gap-2">
               {["2022", "2021", "2020", "2019"].map((year, index) => (
                 <label key={index} className="flex items-center gap-2">
                   <input
                     type="checkbox"
-                    className="h-4 w-4 shrink-0 rounded-sm border border-blue-600 text-blue-600 focus:ring-2 focus:ring-blue-300"
+                    className="h-4 w-4 shrink-0 rounded-sm border border-purple-600 text-purple-600 focus:ring-2 focus:ring-purple-300"
                   />
-                  {year}
+                  <span className="text-gray-600">{year}</span>
                 </label>
               ))}
             </div>
@@ -214,30 +226,7 @@ const PyqVault = () => {
         </div>
       </aside>
 
-      <footer className="bg-blue-600 text-white py-6">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between">
-          <div className="flex items-center gap-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="w-6 h-6"
-            >
-              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"></path>
-            </svg>
-            <span className="text-2xl font-extrabold">PYQ Vault</span>
-          </div>
-          <div className="text-sm text-center md:text-left">
-            © 2024 PYQ Vault. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer/>
     </div>
   );
 };
